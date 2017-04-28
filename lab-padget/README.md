@@ -1,7 +1,7 @@
 # Lab 9: Single Resource API with Simple Persistence
 
 ## Description
-* You can see a description of the project in:
+* You can see a description of the project in 
 [class 8](https://github.com/codefellows/seattle-javascript-401d15/tree/master/class-08-vanilla-REST-api) and [lab 8](https://github.com/codefellows-seattle-javascript-401d15/lab-08-single-resource-api).
 
 ## Version
@@ -31,7 +31,7 @@ npm install -S bluebird
 The result of installation above.
 
 ```dependencies
-  "devDependencies": {
+"devDependencies": {
   "chai": "^3.5.0",
   "chai-http": "^3.0.0",
   "debug": "^2.6.6",
@@ -57,7 +57,6 @@ In [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (Terminal)
 DEBUG=http* nodemon server.js // to run server.
 npm run debug // will also run server.
 npm run test // to run tests.
-
 ```
 ```test routes
 http POST :3000/api/music artist=“Lala” album=”GetReal” song=“MakeBelieve”
