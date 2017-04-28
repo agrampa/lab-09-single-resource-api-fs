@@ -21,7 +21,7 @@ describe('server module', function() {
     let resource;
     before(done => {
       chai.request(server)
-      .post('/api/toy')
+      .post('/api/music')
       .send({name: 'music box', type: 'musical', hazard: true})
       .end((err, res) => {
         resource = JSON.parse(res.text.toString());
@@ -30,7 +30,7 @@ describe('server module', function() {
     });
     after(done => {
       chai.request(server)
-      .delete('/api/toy')
+      .delete('/api/music')
       .query({id: resource.id})
       .end((err, res) => {
         console.error(res);
@@ -38,11 +38,11 @@ describe('server module', function() {
       });
 
     });
-    describe('/api/toy route', function() {
+    describe('/api/music route', function() {
       describe('a properly formatted reqeust', function() {
         it('should return a resource given proper id', done => {
           chai.request(server)
-          .get(`/api/toy?id=${resource.id}`)
+          .get(`/api/music?id=${resource.id}`)
           .end((err, res) => {
             let expected = JSON.parse(res.text.toString());
             expect(resource).to.deep.equal(expected);
@@ -62,19 +62,19 @@ describe('server module', function() {
   });
 
   describe('POST method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/music route', function() {
 
     });
   });
 
   describe('PUT method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/music route', function() {
 
     });
   });
 
   describe('DELETE method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/music route', function() {
 
     });
   });

@@ -1,17 +1,17 @@
 'use strict';
 
 const debug = require('debug')('http:show-routes');
-const KidToy = require('../model/kid-toys');
+const newShow = require('../model/live-show');
 const storage = require('../lib/storage');
 
 module.exports = function(router) {
-  router.get('/api/toy', function(req, res) {
-    debug('GET /api/toy');
+  router.get('/api/music', function(req, res) {
+    debug('GET /api/music');
     if(req.url.query.id) {
-      storage.fetchItem('toy', req.url.query.id)
-      .then(toy => {
+      storage.fetchItem('music', req.url.query.id)
+      .then(music => {
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(toy));
+        res.write(JSON.stringify(music));
         res.end();
       })
       .catch(err => {
@@ -28,14 +28,14 @@ module.exports = function(router) {
     res.end();
   });
 
-  router.post('/api/toy', function(req, res) {
-    debug('POST /api/toy');
+  router.post('/api/music', function(req, res) {
+    debug('POST /api/music');
     try {
-      let toy = new KidToy(req.body.name, req.body.type, req.body.hazard);
-      storage.createItem('toy', toy)
-      .then(newToy => {
+      let show = new newShow(req.body.artist, req.body.album, req.body.song);
+      storage.createItem('show', show)
+      .then(newShow => {
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(newToy));
+        res.write(JSON.stringify(newShow));
         res.end();
       });
     } catch(e) {

@@ -1,7 +1,7 @@
 # Lab 9: Single Resource API with Simple Persistence
 
 ## Description
-* For this lab we...
+* You can see a description of the project in lab 8:
 [class 8](https://github.com/codefellows/seattle-javascript-401d15/tree/master/class-08-vanilla-REST-api) and [lab 8](https://github.com/codefellows-seattle-javascript-401d15/lab-08-single-resource-api).
 
 ## Version
@@ -29,16 +29,17 @@ npm install -S bluebird
 ### Dependencies
 The result of installation above.
 
-```"devDependencies": {
+``` "devDependencies": {
   "chai": "^3.5.0",
   "chai-http": "^3.0.0",
-  "debug": "^2.6.4",
+  "debug": "^2.6.6",
   "mocha": "^3.3.0"
 },
 "dependencies": {
+  "bluebird": "^3.5.0",
   "uuid": "^3.0.1"
 }
-```
+ ```
 
 ### Optional Helper
 
