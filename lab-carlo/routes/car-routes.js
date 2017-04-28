@@ -1,8 +1,8 @@
 'use strict';
 
 const debug = require('debug')('http:server');
-const storage = require('./lib/storage');
-const Automobile = require('./model/cars');
+const storage = require('../lib/storage');
+const Automobile = require('../model/cars');
 
 
 module.exports = function(router) {

@@ -1,5 +1,7 @@
 'use strict';
 
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
 const storage = {};
 
@@ -15,6 +17,7 @@ exports.createCar = function(schemaName, note) {
 
   return Promise.resolve(note);
 };
+
 
 exports.fetchCar = function(schemaName, id) {
   debug('#fetchNote');

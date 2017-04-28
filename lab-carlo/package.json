@@ -1,0 +1,30 @@
+{
+  "name": "lab-carlo",
+  "version": "1.0.0",
+  "description": "Class 9 lab",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js",
+    "debug": "DEBUG=http* nodemon server.js"
+
+  },
+  "keywords": [
+    "bluebird"
+  ],
+  "author": "Carlo",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "debug": "^2.6.6",
+    "mocha": "^3.3.0"
+  }
+}
