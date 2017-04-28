@@ -1,7 +1,7 @@
 # Lab 9: Single Resource API with Simple Persistence
 
 ## Description
-* You can see a description of the project in 
+* You can see a description of the project in
 [class 8](https://github.com/codefellows/seattle-javascript-401d15/tree/master/class-08-vanilla-REST-api) and [lab 8](https://github.com/codefellows-seattle-javascript-401d15/lab-08-single-resource-api).
 
 ## Version
@@ -76,8 +76,7 @@ http DELETE :3000/api/music?id=generated-id-goes-here
 
 ## License
 
-This project is licensed under the MIT License - see the license file for details.
-(https://github.com/mmpadget/lab-09-single-resource-api-fs/blob/lab-09/lab-padget/LICENSE)
+This project is licensed under the MIT License - see the [license](https://github.com/mmpadget/lab-09-single-resource-api-fs/blob/lab-09/lab-padget/LICENSE) file for details.
 
 ## Acknowledgments
 * Code Fellows
