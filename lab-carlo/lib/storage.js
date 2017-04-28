@@ -11,9 +11,11 @@ exports.createCar = function(schemaName, note) {
   debug('#createNote');
   if(!schemaName) return Promise.reject(new Error('Schema required'));
   if(!note) return Promise.reject(new Error('Note required'));
-  if(!storage[schemaName]) storage[schemaName] = {};
 
-  storage[schemaName][note.id] = note;
+  let jsonNote = JSON.stringify(note);
+  fs.writeFileProm(`${__dirname}/../data/${schemaName}/${note.id}.json`, jsonNote)
+  .then(() => note)
+  .catch(err => Promise.reject(err));
 
   return Promise.resolve(note);
 };
@@ -24,16 +26,14 @@ exports.fetchCar = function(schemaName, id) {
 
   return new Promise((resolve, reject) => {
     if(!schemaName) return reject(new Error('Schema required'));
-
     if(!id) return reject(new Error('ID required'));
 
-    let schema = storage[schemaName];
-    if(!schema) return reject(new Error('Schema does not exist'));
-
-    let note = schema[id];
-    if(!note) return reject(new Error('note does not exist'));
-
-    resolve(note);
+    return fs.readFileProm(`${__dirname}/../data/${schemaName}/${id}.json`)
+    .then(data => {
+      let carFetched = JSON.parse(data.toString());
+      return resolve(carFetched);
+    })
+    .catch(err => Promise.reject(err));
   });
 };
 
@@ -42,16 +42,10 @@ exports.fetchDelete = function(schemaName, id){
 
   return new Promise((resolve, reject) => {
     if(!schemaName) return reject(new Error('Schema required'));
-
     if(!id) return reject(new Error('ID required'));
 
-    let schema = storage[schemaName];
-    if(!schema) return reject(new Error('Schema does not exist'));
-
-    let note = schema[id];
-    if(!note) return reject(new Error('note does not exist'));
-    delete schema[id];
-    resolve();
+    fs.unlinkProm(`${__dirname}/../data/${schemaName}/${id}.json`);
+    return resolve();
   });
 };
 
