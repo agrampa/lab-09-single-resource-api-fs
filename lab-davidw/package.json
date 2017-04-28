@@ -10,7 +10,7 @@
     "test": "mocha",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "debug": "DEBUG=cowsay* nodemon server.js",
+    "debug": "DEBUG=fishingLure* nodemon server.js",
     "lint": "eslint ./.eslintrc"
   },
   "repository": {
@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "mkdirp": "^0.5.1",
     "uuid": "^3.0.1"
   }
 }

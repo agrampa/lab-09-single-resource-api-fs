@@ -1,31 +1,12 @@
 'use strict';
 
-const debug = require('debug')('http:parse-json');
+const debug = require('debug')('http:parse-url');
+const parseUrl = require('url').parse;
+const parseQuery = require('querystring').parse;
 
 module.exports = function(req) {
-  return new Promise((resolve, reject) => {
-    debug('parse-json');
-
-    if(req.method === 'POST' || req.method === 'PUT') {
-      let body = '';
-
-      req.on('data', data => body += data.toString());
-      req.on('end', () => {
-        try {
-          req.body = JSON.parse(body);
-          resolve(req);
-        } catch(e) {
-          console.error(e);
-          reject(e);
-        }
-      });
-
-      req.on('error', err => {
-        console.error(err);
-        reject(err);
-      });
-      return;
-    }
-    resolve();
-  });
+  debug('#parsing url');
+  req.url = parseUrl(req.url);
+  req.url.query = parseQuery(req.url.query);
+  return Promise.resolve(req);
 };
