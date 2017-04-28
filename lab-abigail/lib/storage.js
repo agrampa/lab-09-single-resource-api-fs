@@ -1,9 +1,12 @@
 'use strict';
 
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
 const storage = {};
 
 module.exports = exports = {};
+
 
 exports.createItem = function(schema, food) {
   debug('#createItem');
@@ -14,41 +17,37 @@ exports.createItem = function(schema, food) {
 
   storage[schema][food.id] = food;
 
-  return Promise.resolve(food);
+  fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
+  .then( (food) => {
+    console.log(food);
+  })
+  .catch(console.error);
 };
+
 
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
+  if(!schema) return reject(new Error('shema required'));
+  if(!id) return reject(new Error('id required'));
 
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('shema required'));
-    if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    let food = schemaName[id];
-    if(!food) return reject(new Error('food not found'));
-
-    return(resolve(food));
-  });
+  return fs.readFileProm(`./data/${id}.txt`)
+  .then(food => {
+    console.log(food);
+    return JSON.parse(food);
+  })
+  .catch(console.error);
 };
 
 exports.deleteItem = function(schema, id) {
   debug('#deleteItem');
 
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
+  if(!schema) return reject(new Error('schema required'));
+  if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    let food = schemaName[id];
-    if(!food) return reject(new Error('food not found'));
-
-    delete storage[schema][id];
-
-    return(resolve(id));
-  });
+  return fs.unlinkProm(`./data/${id}.txt`)
+  .then(food => {
+    console.log(food);
+  })
+  .catch(console.error);
 };
