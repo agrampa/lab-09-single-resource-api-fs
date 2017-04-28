@@ -12,6 +12,9 @@ exports.createHawk = function(schema, hawk){
 
   if(!schema) return Promise.reject(new Error('schema required'));
   if(!hawk) return Promise.reject(new Error('hawk required'));
+  fs.open(`../data/hawk/${hawk}.txt`, 'wx', function(err, fd){
+
+  })
   if(!storage[schema]) storage[schema] = {};
 
   storage[schema][hawk.id] = hawk;
