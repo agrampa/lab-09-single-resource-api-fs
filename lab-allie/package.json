@@ -1,0 +1,21 @@
+{
+  "name": "lab-allie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "Allie Grampa",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "debug": "^2.6.6",
+    "mocha": "^3.3.0"
+  }
+}
