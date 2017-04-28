@@ -50,9 +50,15 @@ To use `npm run watch`
 ## Running the Tests
 In [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) (Terminal)
 
-```npm run test
-DEBUG=http* nodemon server.js
-http POST :3000/api/note name=get+chocolate date=“04-26-2017”
+```DEBUG=http* nodemon server.js // to run server.
+npm run debug // will also run server.
+npm run test // to run tests.
+
+```
+```http POST :3000/api/music artist=“Lala” album=”GetReal” song=“MakeBelieve”
+http GET :3000/api/music?id=generated-id-goes-here
+http PUT :3000/api/music artist=“ForReal” album=”MoreBeta” song=“Nutz”
+http DELETE :3000/api/music?id=generated-id-goes-here
 ```
 
 ## Resources
@@ -66,7 +72,8 @@ http POST :3000/api/note name=get+chocolate date=“04-26-2017”
 
 ## License
 
-This project is licensed under the MIT License - see the license file for details
+This project is licensed under the MIT License - see the license file for details.
+(https://github.com/mmpadget/lab-09-single-resource-api-fs/blob/lab-09/lab-padget/LICENSE)
 
 ## Acknowledgments
 * Code Fellows
