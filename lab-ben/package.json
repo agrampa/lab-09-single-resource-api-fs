@@ -1,0 +1,41 @@
+{
+  "name": "lab-ben",
+  "version": "1.0.0",
+  "description": "VideoGame Console trackers",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "once": "node server.js",
+    "start": "nodemon server.js",
+    "debug": "DEBUG=http* nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BAyzenberg/lab-08-single-resource-api.git"
+  },
+  "keywords": [
+    "Videogames",
+    "Console",
+    "mocha",
+    "chai"
+  ],
+  "author": "Ben Ayzenberg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BAyzenberg/lab-08-single-resource-api/issues"
+  },
+  "homepage": "https://github.com/BAyzenberg/lab-08-single-resource-api#readme",
+  "dependencies": {
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "debug": "^2.6.4",
+    "mocha": "^3.3.0",
+    "superagent": "^3.5.2"
+  }
+}
