@@ -53,12 +53,12 @@ module.exports = function(router){
 
   router.put('/api/planet', function(req,res){
     debug('PUT /api/planet');
-    console.log(req.body);
     if(req.url.query.id){
-      storage.fetchItem('planet', req.url.query.id)
+      console.log(req.body);
+      // let planet = new Planet(req.body.name, req.body.universe);
+
+      storage.updateItem('planet', req.url.query.id, req.body)
         .then(planet => {
-          if(req.body.name) planet.name = req.body.name;
-          if(req.body.universe) planet.universe = req.universe.name;
           res.writeHead(200, {'Content-Type': 'application/json'});
           res.write(JSON.stringify(planet));
           res.end();
@@ -75,6 +75,31 @@ module.exports = function(router){
     res.write('bad request');
     res.end();
   });
+
+  // router.put('/api/planet', function(req,res){
+  //   debug('PUT /api/planet');
+  //   console.log(req.body);
+  //   if(req.url.query.id){
+  //     storage.fetchItem('planet', req.url.query.id)
+  //       .then(planet => {
+  //         if(req.body.name) planet.name = req.body.name;
+  //         if(req.body.universe) planet.universe = req.body.universe;
+  //         res.writeHead(200, {'Content-Type': 'application/json'});
+  //         res.write(JSON.stringify(planet));
+  //         res.end();
+  //       })
+  //       .catch(err => {
+  //         console.error(err);
+  //         res.writeHead(404, {'Content-Type': 'text/plain'});
+  //         res.write('not found');
+  //         res.end();
+  //       });
+  //     return;
+  //   }
+  //   res.writeHead(400, {'Content-Type': 'text/plain'});
+  //   res.write('bad request');
+  //   res.end();
+  // });
 
   router.delete('/api/planet', function(req,res){
     debug('DELETE /api/planet');

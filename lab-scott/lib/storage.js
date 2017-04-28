@@ -2,6 +2,7 @@
 
 const debug = require('debug')('http:storage');
 const storage = {};
+const mkdirp = require('mkdirp');
 
 module.exports = exports = {};
 
@@ -14,6 +15,13 @@ exports.createItem = function(schema, item) {
   if(!storage[schema]) storage[schema] = {};
 
   storage[schema][item.id] = item;
+
+  // mkdirp('../data/planets', function(err){
+  //   if(err) {console.error(err);}
+  //   else {
+  //
+  //   }
+  // });
 
   return Promise.resolve(item);
 };
@@ -36,6 +44,29 @@ exports.fetchItem = function(schema, id) {
   });
 };
 
+//PUT
+exports.updateItem = function(schema, id, item){
+  debug('#updateItem');
+
+  return new Promise((resolve,reject) => {
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
+    // if(!item) return Promise.reject(new Error ('item required'));
+
+    let schemaIs = storage[schema];
+    if(!schemaIs) return reject(new Error('schema not found'));
+
+    let schemaOn = schemaIs[id];
+
+    if(item.name) schemaOn.name = item.name;
+    if(item.universe) schemaOn.universe = item.universe;
+
+    resolve(schemaOn);
+
+  });
+};
+
+//DELETE
 exports.deleteItem = function(schema, id){
   debug('#fetchItem');
 
