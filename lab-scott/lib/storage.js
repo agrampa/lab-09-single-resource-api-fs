@@ -3,6 +3,8 @@
 const debug = require('debug')('http:storage');
 const storage = {};
 const mkdirp = require('mkdirp');
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
 module.exports = exports = {};
 
@@ -16,12 +18,13 @@ exports.createItem = function(schema, item) {
 
   storage[schema][item.id] = item;
 
-  // mkdirp('../data/planets', function(err){
-  //   if(err) {console.error(err);}
-  //   else {
-  //
-  //   }
-  // });
+  mkdirp('./data/planets', function(err){
+    if(err) {console.error(err);}
+    else {
+      let data = JSON.stringify(item);
+      fs.writeFileProm(`./data/planets/${item.name}.json`, data);
+    }
+  });
 
   return Promise.resolve(item);
 };
