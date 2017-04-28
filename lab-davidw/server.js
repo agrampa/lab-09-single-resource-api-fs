@@ -10,6 +10,6 @@ const PORT = process.env.PORT || 3030;
 const router = new Router();
 const server = module.exports = http.createServer(router.route());
 
-require('./routes/lure')(router);
+require('./routes/lure-routes')(router);
 
 server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
