@@ -1,0 +1,37 @@
+{
+  "name": "lab-padget",
+  "version": "0.1.0",
+  "description": "Lab 9",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmpadget/lab-09-single-resource-api-fs.git"
+  },
+  "keywords": [
+    "lab",
+    "9"
+  ],
+  "author": "Michael",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmpadget/lab-09-single-resource-api-fs/issues"
+  },
+  "homepage": "https://github.com/mmpadget/lab-09-single-resource-api-fs#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "debug": "^2.6.6",
+    "mocha": "^3.3.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "uuid": "^3.0.1"
+  }
+}
