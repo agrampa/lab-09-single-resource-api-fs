@@ -1,7 +1,7 @@
 # Lab 9: Single Resource API with Simple Persistence
 
 ## Description
-* You can see a description of the project in lab 8:
+* You can see a description of the project in class 8:
 [class 8](https://github.com/codefellows/seattle-javascript-401d15/tree/master/class-08-vanilla-REST-api) and [lab 8](https://github.com/codefellows-seattle-javascript-401d15/lab-08-single-resource-api).
 
 ## Version
