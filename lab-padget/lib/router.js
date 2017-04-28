@@ -34,34 +34,32 @@ Router.prototype.delete = function(endpoint, callback) {
   this.routes.DELETE[endpoint] = callback;
 };
 
-// NOTE: this is a dynamic alternative to the four proto methods defined above
-// ['get', 'post', 'put', 'delete'].forEach(verb => {
-//   Router.prototype[verb] = function(endpoint, callback) {
-//     this.routes[verb.toUpperCase()][endpoint] = callback
-//   }
-// })
-
-// let server = http.createServer(function(req, res) {
-  // defined all the codes here
-//})
-
+// this function will be our callback to the server.
 Router.prototype.route = function() {
   debug('#routes');
+  // setup any request and response to be passed into this callback.
   return (req, res) => {
+    // handing callbacks in as promises into an array.
     Promise.all([
+      // hand callback into parse url and parse json.
       parseUrl(req),
+      // resolve promises.
       parseJson(req),
     ])
+    // wait for all promise transactions to be closed first.
     .then(() => {
+      // routes, method, pathname in the request.
       if(typeof this.routes[req.method][req.url.pathname] === 'function') {
         this.routes[req.method][req.url.pathname](req, res);
+        // because it's a function, we can call it.
         return;
       }
-
+      // if that works, stop executing, otherwise show 404.
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.write('route not found');
       res.end();
     })
+    // if we have an error, show 400, bad request.
     .catch(err => {
       console.error(err);
       res.writeHead(400, {'Content-Type': 'text/plain'});

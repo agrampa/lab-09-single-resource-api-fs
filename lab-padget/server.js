@@ -2,17 +2,17 @@
 
 const http = require('http');
 const Router = require('./lib/router');
-const storage = require('./lib/storage');
-console.log(storage);
-const LiveShow = require('./model/live-show');
-console.log(LiveShow);
-const debug = require('debug')('http:server');
-console.log(debug);
+const storage = require('./lib/storage'); // eslint-disable-line
+const LiveShow = require('./model/live-show'); // eslint-disable-line
+const debug = require('debug')('http:server'); // eslint-disable-line
 const PORT = process.env.PORT || 3000;
 
+// callback to start server, alias exports to server.
 const router = new Router();
+// bind to the router so we have the routes, call, return callback.
 const server = module.exports = http.createServer(router.route());
+// previously: router.get(‘/api/music’, (req, res) => {}
 
-require('./routes/live-show.js')(router);
+require('./routes/show-routes.js')(router);
 
 server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));

@@ -4,18 +4,18 @@ const Show = require('../model/live-show');
 const expect = require('chai').expect;
 
 describe('live-show module', function() {
-  describe('when creating a new music object', function() {
-    this.newShow = new Show('music box', 'musical', true);
-    it('should have a name of "music box"', done => {
-      expect(this.newShow.name).to.equal('music box');
+  describe('when creating a new show object', function() {
+    this.newShow = new Show('artist', 'album', true);
+    it('should have a name of "artist"', done => {
+      expect(this.newShow.artist).to.equal('artist');
       done();
     });
-    it('should have a type of "musical"', done => {
-      expect(this.newShow.type).to.equal('musical');
+    it('should have a type of "album"', done => {
+      expect(this.newShow.album).to.equal('album');
       done();
     });
-    it('should have a hazard of "true"', done => {
-      expect(this.newShow.hazard).to.be.true;
+    it('should have a song "true"', done => {
+      expect(this.newShow.song).to.be.true;
       done();
     });
     it('should have an id of a unique uuid value', done => {
