@@ -16,12 +16,12 @@ exports.createItem = function(schema, item) {
 
   storage[schema][item.id] = item;
 
-  // mkdirp('../data/planets', function(err){
-  //   if(err) {console.error(err);}
-  //   else {
-  //
-  //   }
-  // });
+  mkdirp('../data/planets', function(err){
+    if(err) {console.error(err);}
+    else {
+      
+    }
+  });
 
   return Promise.resolve(item);
 };
