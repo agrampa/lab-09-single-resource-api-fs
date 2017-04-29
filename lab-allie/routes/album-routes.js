@@ -35,7 +35,7 @@ module.exports = function(router) {
       .catch(err => {
         console.error(err);
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write('Not found');
+        res.write('Not found, router.get');
         res.end();
       });
       return;
@@ -51,7 +51,7 @@ module.exports = function(router) {
       .catch(err => {
         console.error(err);
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write('Not found');
+        res.write('Not found, storage.fetchAll');
         res.end();
       });
       return;
@@ -75,7 +75,7 @@ module.exports = function(router) {
       res.writeHead(400, {'Content-Type': 'text/plain'});
       res.write('Bad request');
       res.end();
-    };
+    }
   });
   
   router.delete('api/album', function(req, res) {
@@ -91,7 +91,7 @@ module.exports = function(router) {
       .catch(err => {
         console.error(err);
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write('Not found');
+        res.write('Not found, router.delete');
         res.end();
       });
       return;

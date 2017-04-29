@@ -18,10 +18,10 @@ exports.createAlbum = function(schemaName, album) {
   
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
-    if(err) throw err;
-    console.log('Called fs.writeFileProm');
-    return JSON.parse(data);
-  });
+    console.log('Called fs.writeFileProm', data );
+    // return JSON.parse(data);
+  })
+  .catch(console.error('Error in createAlbum route'));
 };
 
 exports.fetchAlbum = function(schemaName, id) {
@@ -30,18 +30,18 @@ exports.fetchAlbum = function(schemaName, id) {
   if(!schemaName) return (new Error('Schema name required'));
   if(!id) return (new Error('Album id required'));
   
-  let schema = storage[schemaName];
-  if(!schema) return (new Error('Schema does not exist'));
+  // let schema = storage[schemaName];
+  // if(!schema) return (new Error('Schema does not exist'));
+  // 
+  // let album = schema[id];
+  // if (!album) return (new Error('Album does not exist'));
   
-  let album = schema[id];
-  if (!album) return (new Error('Album does not exist'));
-  
-  fs.readFileProm(`./data/${album.id.txt}`)
+  fs.readFileProm(`./data/${id}.txt`)
   .then(data => {
-    if(err) throw err;
-    console.log('Called fs.readFileProm');
-    return data;
-  });
+    console.log('Called fs.readFileProm', data);
+    return JSON.parse(data);
+  })
+  .catch(console.error('error in fs.readFileProm'));
 };
 
 exports.updateAlbum = function(schemaName, album) {
@@ -70,7 +70,7 @@ exports.updateAlbum = function(schemaName, album) {
   
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
-    if(err) throw err;
+    // if(err) throw err;
     console.log('Called fs.writeFileProm');
     return JSON.parse(data);
   });
@@ -94,6 +94,8 @@ exports.removeAlbum = function(schemaName, id) {
   if(!id) return (new Error('ID required'));
   
   // delete storage[schemaName];
-  fs.unlinkProm(`.data/${album.id}.txt`)
-  .then(console.log('Called fs.unlinkProm'));
+  return fs.unlinkProm(`.data/${id}.txt`)
+  .then(data => {
+    console.log('Called fs.unlinkProm', data);
+  }).catch(console.error('error in fs.unlinkProm'));
 };

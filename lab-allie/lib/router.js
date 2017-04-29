@@ -48,7 +48,7 @@ Router.prototype.route = function() {
         return;
       }
       res.writeHead(404, {'Content-Type': 'text/plain'});
-      res.write('Not found');
+      res.write('Not found, router.prototype.route');
       res.end();
     })
     .catch(err => {
