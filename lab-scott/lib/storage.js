@@ -3,6 +3,7 @@
 const debug = require('debug')('http:storage');
 const storage = {};
 const mkdirp = require('mkdirp');
+const del = require('del');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
@@ -33,18 +34,24 @@ exports.createItem = function(schema, item) {
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
 
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
+  // return new Promise((resolve, reject) => {
+    if(!schema) return Promise.reject(new Error('schema required'));
+    if(!id) return Promise.reject(new Error('id required'));
 
     let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
+    if(!schemaName) return Promise.reject(new Error('schema not found'));
 
     let item = schemaName[id];
-    if(!item) return reject(new Error('item not found'));
+    if(!item) return Promise.reject(new Error('item not found'));
 
-    resolve(item);
-  });
+    // try {
+    //   fs.readFileProm(`./data.planets/${item.name}.json`);
+    // }catch(err){
+    //   console.error(err);
+    //   return reject(new Error('failed to read file'));
+    // }
+    return Promise.resolve(item);
+  // });
 };
 
 //PUT
@@ -82,6 +89,8 @@ exports.deleteItem = function(schema, id){
 
     let item = schemaName[id];
     if(!item) return reject(new Error('item not found'));
+
+    del([`./data/planets/${item.name}.js`]);
 
     delete storage[schema];
     reslove();
