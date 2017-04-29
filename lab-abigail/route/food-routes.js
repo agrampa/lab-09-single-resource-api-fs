@@ -75,6 +75,7 @@ module.exports = function(router) {
     console.log(req.body);
 
     if(req.url.query.id) {
+
       storage.fetchItem('food', req.url.query.id)
       .then(food => {
         if (req.body.name) food.name = req.body.name;
