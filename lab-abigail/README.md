@@ -2,7 +2,7 @@
 ======
 
 # About
-This program allows users to store information regarding the name, type, and cost of a food item. The program utilizes REST principles to POST, GET, DELETE, and update entries, given custom user input. This program runs in the user's terminal on `localhost:3000`. Please enjoy!
+This program allows users to store information regarding the name, type, and cost of a food item using the file system. The program utilizes REST principles to POST, GET, DELETE, and update entries, given custom user input. This program runs in the user's terminal on `localhost:3000`. Please enjoy!
 
 # Directions
 1. First, `npm i` to download all resources onto the local machine.
