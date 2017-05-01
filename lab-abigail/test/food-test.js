@@ -90,7 +90,7 @@ describe('POST method', function() {
         .send({'name': 'apple', 'type': 'red', 'cost': 1.5})
         .end((err, res) => {
           if (err) console.error(err);
-          expect(res.status).to.equal(201);
+          expect(res.status).to.equal(200);
           done();
         });
       });
@@ -115,7 +115,7 @@ describe('POST method', function() {
         .get(`/api/food?id=${food.id}`)
         .end((err, res) => {
           if (err) console.error(err);
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           done();
         });
       });
@@ -173,7 +173,7 @@ describe('PUT method', function() {
         .put(`/api/food?id=${food.id}`)
         .end((err, res) => {
           if (err) console.error(err);
-          expect(res.status).to.equal(202);
+          expect(res.status).to.equal(200);
           done();
         });
       });

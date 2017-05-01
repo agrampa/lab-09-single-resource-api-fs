@@ -10,15 +10,20 @@ This program allows users to store information regarding the name, type, and cos
 3. In a separate terminal tab, enter entries.
   * To run POST, type into command line:
 ```
-http POST :3000/api/food name=<food name> type=<item type> cost=<amount>
+http POST :3000/api/food name='<food name>' 'type=<item type>' 'cost=<amount>'
+http POST :3000/api/food name='apple' type='red' cost='5'
+
 ```
 * To run GET, type into command line:
 ```
-http GET :3000/api/food?id=<id-number>
+http GET :3000/api/food?id='<id-number>'
+http GET :3000/api/food?id='24b62d24-39ff-4049-a2bc-a05711e7b449'
 ```
 * To run PUT, type into command line:
 ```
 http PUT :3000/api/food?id=<id-number> name=<updated food name> type=<updates item type> cost=<updates amount>
+http PUT :3000/api/food?id='24b62d24-39ff-4049-a2bc-a05711e7b449' cost='6'
+
 ```
   * Use one, two, or all of update categories
 

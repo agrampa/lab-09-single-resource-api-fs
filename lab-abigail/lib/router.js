@@ -60,6 +60,7 @@ Router.prototype.route = function() {
       res.end();
     })
     .catch(err => {
+      if (err) throw err;
       res.writeHead(400, {'Content-Type': 'text/plain'});
       res.write('bad request');
       res.end();
