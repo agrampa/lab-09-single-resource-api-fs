@@ -7,7 +7,6 @@ const storage = {};
 
 module.exports = exports = {};
 
-
 exports.createItem = function(schema, food) {
   debug('#createItem');
 
@@ -24,22 +23,21 @@ exports.createItem = function(schema, food) {
   .catch(console.error);
 };
 
-exports.updateItem = function(schema, food) {
-  debug('#updateItem');
-
-  if(!schema) return Promise.reject(new Error('schema required'));
-  if(!food) return Promise.reject(new Error('food required'));
-
-  return fs.readFileProm(`./data/${id}.txt`)
-  .then( () => {
-    fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
-    .then( (food) => {
-      console.log(food);
-    })
-    .catch(console.error)
-  })
-  .catch(console.error);
-};
+// exports.updateItem = function(schema, food) {
+//   debug('#updateItem');
+//
+//   if(!schema) return Promise.reject(new Error('schema required'));
+//   if(!food) return Promise.reject(new Error('food required'));
+//   if(storage[schema]) storage[schema] = {};
+//
+//     fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
+//     .then( (food) => {
+//       console.log(food);
+//     })
+//     .catch(console.error);
+//   })
+//   .catch(console.error);
+// };
 
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
