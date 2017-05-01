@@ -56,22 +56,8 @@ exports.updateAlbum = function(schemaName, album) {
   
   if (!schema[album.id]) return (new Error('Album does not exist'));
   
-  // if(album.artist) {
-  //   album.artist = album.body.artist;
-  // }
-  // 
-  // if(album.title) {
-  //   album.title = album.body.title;
-  // }
-  // 
-  // if(album.year) {
-  //   album.year = album.body.year;
-  // }
-  // storage[schemaName][album.id] = album;
-  
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
-    // if(err) throw err;
     console.log('Called fs.writeFileProm');
     return JSON.parse(data);
   });
