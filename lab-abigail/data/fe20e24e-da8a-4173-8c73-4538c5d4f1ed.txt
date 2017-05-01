@@ -1,1 +1,0 @@
-{"name":"apple","type":"red","cost":1.5,"id":"fe20e24e-da8a-4173-8c73-4538c5d4f1ed"}
