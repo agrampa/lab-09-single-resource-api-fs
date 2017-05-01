@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const debug = require('debug')('http:food-routes');
 const FoodItem = require('../model/food.js');
