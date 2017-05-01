@@ -1,1 +1,0 @@
-{"name":"ants","type":"yellow","cost":"15","id":"935ffd5e-d6f6-4f24-bb7b-3bea86579d78"}

@@ -1,1 +1,0 @@
-{"name":"dino","type":"yellow","cost":"1.5","id":"b87eb322-53c0-43b4-be9c-804c061d0211"}
