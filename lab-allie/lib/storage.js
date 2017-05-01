@@ -7,14 +7,14 @@ const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
 module.exports = exports = {};
 
-exports.createAlbum = function(schemaName, album) {
+exports.createAlbum = function(schema, album) {
   debug('#storage createAlbum');
-  if(!schemaName) return (new Error('Schema required'));
+  if(!schema) return (new Error('Schema required'));
   if(!album) return (new Error('Album required'));
   
-  if(!storage[schemaName]) storage[schemaName] = {};
+  if(!storage[schema]) storage[schema] = {};
   
-  storage[schemaName][album.id] = album;
+  storage[schema][album.id] = album;
   
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
@@ -30,15 +30,16 @@ exports.fetchAlbum = function(schemaName, id) {
   if(!schemaName) return (new Error('Schema name required'));
   if(!id) return (new Error('Album id required'));
   
-  // let schema = storage[schemaName];
-  // if(!schema) return (new Error('Schema does not exist'));
-  // 
-  // let album = schema[id];
-  // if (!album) return (new Error('Album does not exist'));
+  let schema = storage[schemaName];
+  if(!schema) return (new Error('Schema does not exist'));
   
-  fs.readFileProm(`./data/${id}.txt`)
+  let album = schema[id];
+  if (!album) return (new Error('Album does not exist'));
+  
+  return fs.readFileProm(`./data/${id}.txt`)
   .then(data => {
-    console.log('Called fs.readFileProm', data);
+    console.log('Called fs.readFileProm');
+    console.log('json.parse data', JSON.parse(data));
     return JSON.parse(data);
   })
   .catch(console.error('error in fs.readFileProm'));
