@@ -43,22 +43,27 @@ exports.fetchAlbum = function(schemaName, id) {
   .catch(console.error('error in fs.readFileProm'));
 };
 
-exports.updateAlbum = function(schemaName, album) {
+exports.updateAlbum = function(schemaName, id) {
   debug('#storage updateAlbum');
 
   if(!schemaName) return (new Error('Schema required'));
-  if(!album) return (new Error('Album required'));
+  if(!id) return (new Error('Album required'));
   
   let schema = storage[schemaName];
   if(!schema) return (new Error('Schema does not exist'));
   
-  if (!schema[album.id]) return (new Error('Album does not exist'));
+  if (!schema[id]) return (new Error('Album does not exist'));
   
-  fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
-  .then(data => {
+  return fs.readFileProm(`./data/${id}.txt`)
+  .then(data => {    
+    fs.writeFileProm(`./data/${id}.txt`)
+    .then(data => {
+      return JSON.parse(data);
+    });
+    console.log('json.parse data', JSON.parse(data));
     return JSON.parse(data);
-  });
-
+  })
+  .catch(console.error('error in fs.readFileProm'));
 };
 
 exports.fetchAll = function(schemaName) {
