@@ -3,7 +3,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
-const storage = {};
+//const storage = {};
 
 module.exports = exports = {};
 
@@ -49,23 +49,26 @@ exports.fetchDelete = function(schemaName, id){
   });
 };
 
-exports.fetchPut = function(schemaName, id, auto) {
+exports.fetchPut = function(schemaName, id) {
   debug('#fetchPut');
 
-  return new Promise((resolve, reject) => {
-    if(!schemaName) return reject(new Error('Schema required'));
+  //return new Promise((resolve, reject) => {
+  //if(!schemaName) return (new Error('Schema required'));
 
-    if(!id) return reject(new Error('ID required'));
+  //if(!id) return (new Error('ID required'));
 
-    let schema = storage[schemaName];
-    if(!schema) return reject(new Error('Schema does not exist'));
+  // let schema = storage[schemaName];
+  // if(!schema) return (new Error('Schema does not exist'));
+  //let carUrlId = `${__dirname}/../data/${schemaName}${id}.json`;
+  let jsonNote = JSON.stringify(note);
+  return fs.readFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`)
+  .then((note) => {
+    fs.writeFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`, jsonNote)
+    .then((note) => {
+      console.log(note);
+    })
+    .catch(console.error);
+  })
+  .catch(console.error);
 
-    let note = schema[id];
-    if(!note) return reject(new Error('note does not exist'));
-
-    if(auto.name) note.name = auto.name;
-    if(auto.car) note.car = auto.car;
-
-    resolve(note);
-  });
 };
