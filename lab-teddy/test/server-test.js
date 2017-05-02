@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const server = require('../server');
 const chai = require('chai');
@@ -60,28 +60,23 @@ describe('server module', function() {
           });
         });
       });
-
-    });
-
-    describe('unregistered route', function() {
-
     });
   });
 
   describe('POST method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/car route', function() {
 
     });
   });
 
   describe('PUT method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/car route', function() {
 
     });
   });
 
   describe('DELETE method', function() {
-    describe('/api/toy route', function() {
+    describe('/api/car route', function() {
 
     });
   });
