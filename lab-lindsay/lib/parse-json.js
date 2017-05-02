@@ -16,7 +16,6 @@ module.exports = function(req) {
           resolve(req);
         } catch(e) {
           console.error(e);
-          reject(e);
         }
       });
 

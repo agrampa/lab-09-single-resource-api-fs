@@ -1,73 +1,69 @@
 'use strict';
 
 const debug = require('debug')('http:storage');
-const storage = {};
+const storage = module.exports = {};
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Async'});
+const pathUrl = `${__dirname}/../data`;
 
-module.exports = exports = {};
 
-exports.createItem = function(schema, item) {
+storage.createItem = function(blueprint, item) {
   debug('#createItem');
 
-  if(!schema) return Promise.reject(new Error('schema required'));
-  if(!item) return Promise.reject(new Error('item required'));
-  if(!storage[schema]) storage[schema] = {};
-
-  storage[schema][item.id] = item;
-
-  return Promise.resolve(item);
+  return fs.statAsync(`${pathUrl}`)
+  .catch(err => {
+    err.status = 400;
+    return Promise.reject(err);
+  })
+  .then(() => {
+    return fs.writeFileAsync(`${pathUrl}/${blueprint}${item.id}.json`, JSON.stringify(item));
+  })
+  .then(() => {
+    return Promise.resolve(item);
+  })
 };
 
-exports.fetchItem = function(schema, id) {
+storage.fetchItem = function(blueprint, id) {
   debug('#fetchItem');
+  let pathUrlId =`${pathUrl}/${blueprint}${id}.json`;
 
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
-
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    let item = schemaName[id];
-    if(!item) return reject(new Error('item not found'));
-
-    resolve(item);
+  return fs.statAsync(pathUrlId)
+  .catch(err => {
+    err.status = 404;
+    return Promise.reject(err);
+  })
+  .then(() => {
+    return fs.readFileAsync(pathUrlId);
+  })
+  .then((data) => {
+    return Promise.resolve(JSON.parse(data.toString()));
   });
 };
 
-exports.removeItem = function(schema, id) {
+storage.removeItem = function(blueprint, id) {
   debug('#removeItem');
+  let pathUrlId = `${pathUrl}/${blueprint}${id}.json`;
 
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
-
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    console.log(storage[schema]);
-    delete(storage[schema]);
-
-    resolve();
+  return fs.statAsync(pathUrlId)
+  .catch(err => {
+    err.status = 404;
+    return Promise.reject(err);
+  })
+  .then(() => {
+    return fs.unlinkAsync(pathUrlId);
+  })
+  .then(() => {
+    return Promise.resolve();
   });
 };
 
-exports.updateItem = function(schema, id) {
+storage.updateItem = function(blueprint, id, item) {
   debug('#updateItem');
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
+  let pathUrlId = `${pathUrl}/${blueprint}${id}.json`;
 
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    let candy = schemaName[id];
-    if(!candy) return reject(new Error('item not found'));
-    console.log(storage[schema]);
-
-    if(newName) candy.name = newName;
-    if(newType) candy.type = newType;
-    if(newTexture) candy.texture = newTexture;
-
-    resolve();
-  });
+  return fs.readFileAsync(`${pathUrlId}`, JSON.stringify(item))
+  .then((item) => {
+    console.log(item);
+  })
+  .catch(console.error);
 };
