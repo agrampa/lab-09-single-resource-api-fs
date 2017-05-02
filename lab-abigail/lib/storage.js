@@ -27,31 +27,14 @@ exports.updateItem = function(schema, id, newFood) {
 
   if(!schema) return Promise.reject(new Error('schema required'));
   if(!id) return Promise.reject(new Error('id required'));
-  // if(!storage[schema]) storage[schema] = {};
-
-  // let food = storage[schema][id];
-
-  // let schemaName = storage[schema];
-  // console.log(schemaName);
-  // if (!schemaName) return Promise.reject(new Error('Schema not found'));
-  //
-  // let food = schemaName[id];
-  // if (!food) return Promise.reject(new Error('Food not found'));
-  // console.log(food.id);
-
 
   return fs.readFileProm(`${__dirname}/../data/${id}.json`)
   .then( food => {
-    console.log('I made it!');
     let stringFood = JSON.parse(food.toString());
     if (newFood.name) stringFood.name = newFood.name;
     if (newFood.type) stringFood.type = newFood.type;
     if (newFood.cost) stringFood.cost = newFood.cost;
-    fs.writeFileProm(`${__dirname}/../data/${id}.json`, JSON.stringify(stringFood))
-    // .then( (food) => {
-      // console.log(food);
-    // })
-    .catch(console.error);
+    fs.writeFileProm(`${__dirname}/../data/${id}.json`, JSON.stringify(stringFood));
   })
   .catch(console.error);
 };
