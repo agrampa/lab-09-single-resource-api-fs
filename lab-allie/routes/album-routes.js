@@ -41,44 +41,7 @@ module.exports = function(router) {
         res.end();
       });
       return;
-      
-      
-      
-      // try {
-      //   storage.fetchAlbum('album', req.url.query.id);
-      //   res.writeHead(200, {'Content-Type': 'application/json'});
-      //   console.log('req', JSON.parse(req));
-      //   res.write(JSON.stringify(album));
-      //   res.end();
-      // } catch(e) {
-      //   console.error(e);
-      //   res.writeHead(404, {'Content-Type': 'text/plain'});
-      //   res.write('Not found, router.get');
-      //   res.end();
-      // }
-    
-
     }
-    
-    // if(!req.url.query.id) {
-    //   storage.fetchAll('albums', req.url.body)
-    //   .then(albums => {
-    //     res.writeHead(200, {'Content-Type': 'application/json'});
-    //     res.write(JSON.stringify(albums));
-    //     res.end();
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //     res.writeHead(404, {'Content-Type': 'text/plain'});
-    //     res.write('Not found, storage.fetchAll');
-    //     res.end();
-    //   });
-    //   return;
-    // }
-    
-    // res.writeHead(400, {'Content-Type': 'text/plain'});
-    // res.write('Bad request');
-    // res.end();
   });
   
   router.put('/api/album', (req,res) => {
