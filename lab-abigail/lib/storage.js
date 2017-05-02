@@ -16,34 +16,35 @@ exports.createItem = function(schema, food) {
 
   storage[schema][food.id] = food;
 
-  fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
+  fs.writeFileProm(`${__dirname}/../data/${food.id}.json`, JSON.stringify(food))
   .then( (food) => {
   })
   .catch(console.error);
 };
 
-exports.updateItem = function(schema, id) {
+exports.updateItem = function(schema, id, newFood) {
   debug('#updateItem');
 
-  if(!schema) return reject(new Error('shema required'));
-  if(!id) return reject(new Error('id required'));
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
 
-  return fs.readFileProm(`./data/${id}.txt`)
+  return fs.readFileProm(`${__dirname}/../data/${id}.json`)
   .then( food => {
-    fs.writeFileProm(`./data/${id}.txt`, JSON.stringify(food))
-    .then( (food) => {
-    })
-    .catch(console.error);
+    let stringFood = JSON.parse(food.toString());
+    if (newFood.name) stringFood.name = newFood.name;
+    if (newFood.type) stringFood.type = newFood.type;
+    if (newFood.cost) stringFood.cost = newFood.cost;
+    fs.writeFileProm(`${__dirname}/../data/${id}.json`, JSON.stringify(stringFood));
   })
   .catch(console.error);
 };
 
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
-  if(!schema) return reject(new Error('shema required'));
-  if(!id) return reject(new Error('id required'));
+  if(!schema) return Promise.reject(new Error('shema required'));
+  if(!id) return Promise.reject(new Error('id required'));
 
-  return fs.readFileProm(`./data/${id}.txt`)
+  return fs.readFileProm(`${__dirname}/../data/${id}.json`)
   .then(food => {
     return JSON.parse(food);
   })
@@ -53,10 +54,10 @@ exports.fetchItem = function(schema, id) {
 exports.deleteItem = function(schema, id) {
   debug('#deleteItem');
 
-  if(!schema) return reject(new Error('schema required'));
-  if(!id) return reject(new Error('id required'));
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
 
-  return fs.unlinkProm(`./data/${id}.txt`)
+  return fs.unlinkProm(`${__dirname}/../data/${id}.json`)
   .then(food => {
     console.log('Food deleted');
   })

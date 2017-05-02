@@ -70,15 +70,12 @@ module.exports = function(router) {
   router.put('/api/food', function(req, res) {
     debug('PUT /api/food');
 
-    if(req.url.query.id) {
+    if(req.body.id) {
 
-      storage.updateItem('food', req.url.query.id)
-      .then(food => {
-        if (req.body.name) food.name = req.body.name;
-        if (req.body.type) food.type = req.body.type;
-        if (req.body.cost) food.cost = req.body.cost;
+      storage.updateItem('food',  req.body.id, req.body)
+      .then(() => {
         res.writeHead(202, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(food));
+        res.write('Updated!');
         res.end();
       })
       .catch(err => {
