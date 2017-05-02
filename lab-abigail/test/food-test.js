@@ -33,7 +33,6 @@ describe('POST method', function() {
       .send({'name': 'apple', 'type': 'red', 'cost': 1.5})
       .end((err, res) => {
         if (err) console.error(err);
-        console.log('res.body', res.body);
         expect(res.body.name).to.equal('apple');
         done();
       });
@@ -152,7 +151,6 @@ describe('PUT method', function() {
     .end((err, res) => {
       food = JSON.parse(res.text.toString());
     });
-    console.log(food);
     done();
   });
 
