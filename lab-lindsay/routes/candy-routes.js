@@ -49,7 +49,7 @@ module.exports = function(router) {
     debug('DELETE /api/candy');
     if(req.url.query.id) {
       storage.removeItem('candy', req.url.query.id)
-      .then(() => {
+      .then(candy => {
         res.writeHead(404, {'Content-Type' : 'application/json'});
         res.write('candy deleted successfully');
         res.end();
