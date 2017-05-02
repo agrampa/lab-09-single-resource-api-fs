@@ -18,36 +18,33 @@ exports.createItem = function(schema, food) {
 
   fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
   .then( (food) => {
-    console.log(food);
   })
   .catch(console.error);
 };
 
-// exports.updateItem = function(schema, food) {
-//   debug('#updateItem');
-//
-//   if(!schema) return Promise.reject(new Error('schema required'));
-//   if(!food) return Promise.reject(new Error('food required'));
-//   if(storage[schema]) storage[schema] = {};
-//
-//     fs.writeFileProm(`./data/${food.id}.txt`, JSON.stringify(food))
-//     .then( (food) => {
-//       console.log(food);
-//     })
-//     .catch(console.error);
-//   })
-//   .catch(console.error);
-// };
+exports.updateItem = function(schema, id) {
+  debug('#updateItem');
+
+  if(!schema) return reject(new Error('shema required'));
+  if(!id) return reject(new Error('id required'));
+
+  return fs.readFileProm(`./data/${id}.txt`)
+  .then( food => {
+    fs.writeFileProm(`./data/${id}.txt`, JSON.stringify(food))
+    .then( (food) => {
+    })
+    .catch(console.error);
+  })
+  .catch(console.error);
+};
 
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
   if(!schema) return reject(new Error('shema required'));
   if(!id) return reject(new Error('id required'));
 
-
   return fs.readFileProm(`./data/${id}.txt`)
   .then(food => {
-    console.log(food);
     return JSON.parse(food);
   })
   .catch(console.error);
@@ -61,7 +58,7 @@ exports.deleteItem = function(schema, id) {
 
   return fs.unlinkProm(`./data/${id}.txt`)
   .then(food => {
-    console.log(food);
+    console.log('Food deleted');
   })
   .catch(console.error);
 };
