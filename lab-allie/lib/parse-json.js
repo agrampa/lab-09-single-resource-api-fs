@@ -20,7 +20,7 @@ module.exports = function(req) {
         } catch (e) {
           console.error(e);
           reject(e);
-        };
+        }
       });
       
       req.on('error', err => {

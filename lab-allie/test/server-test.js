@@ -21,7 +21,6 @@ describe('Server module tests', function() {
         .send({'artist': 'Billy Joel', 'title': 'An Innocent Man', 'year': '1983'})
         .end((err, res) => {
           if (err) console.error(err);
-          console.log('res.body', res.body);
           expect(res.body.artist).to.equal('Billy Joel');
           done();
         });

@@ -19,7 +19,6 @@ exports.createAlbum = function(schema, album) {
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
     console.log('Called fs.writeFileProm', data );
-    // return JSON.parse(data);
   })
   .catch(console.error('Error in createAlbum route'));
 };
@@ -38,7 +37,6 @@ exports.fetchAlbum = function(schemaName, id) {
   
   return fs.readFileProm(`./data/${id}.txt`)
   .then(data => {
-    console.log('Called fs.readFileProm');
     console.log('json.parse data', JSON.parse(data));
     return JSON.parse(data);
   })
@@ -58,7 +56,6 @@ exports.updateAlbum = function(schemaName, album) {
   
   fs.writeFileProm(`./data/${album.id}.txt`, JSON.stringify(album))
   .then(data => {
-    console.log('Called fs.writeFileProm');
     return JSON.parse(data);
   });
 
@@ -80,7 +77,6 @@ exports.removeAlbum = function(schemaName, id) {
   if(!schemaName) return (new Error('Schema required'));
   if(!id) return (new Error('ID required'));
   
-  // delete storage[schemaName];
   return fs.unlinkProm(`.data/${id}.txt`)
   .then(data => {
     console.log('Called fs.unlinkProm', data);
