@@ -10,8 +10,9 @@ module.exports = function(router){
     if(req.url.query.id) {
       storage.fetchHawk('hawk', req.url.query.id)
       .then(hawk => {
+        console.log(hawk);
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(hawk));
+        res.write(hawk);
         res.end();
       })
       .catch(err => {

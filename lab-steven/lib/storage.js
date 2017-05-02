@@ -3,7 +3,6 @@
 const debug = require('debug')('#http:storage');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
-const storage = {};
 
 module.exports = exports = {};
 
@@ -12,12 +11,12 @@ exports.createHawk = function(schema, hawk){
 
   if(!schema) return Promise.reject(new Error('schema required'));
   if(!hawk) return Promise.reject(new Error('hawk required'));
-  fs.open(`../data/hawk/${hawk}.txt`, 'wx', function(err, fd){
-
+  fs.mkdirProm(`${__dirname}/../data/${schema}`, function(err){ // add a check to see if dir already exists?
+    if(err) return Promise.reject(new Error(err));
+  }).then(fs.writeFileProm(`${__dirname}/../data/${schema}/${hawk.id}.json`, JSON.stringify(hawk), function(err){
+    if (err) return Promise.reject(new Error(err));
   })
-  if(!storage[schema]) storage[schema] = {};
-
-  storage[schema][hawk.id] = hawk;
+);
 
   return Promise.resolve(hawk);
 };
@@ -29,11 +28,10 @@ exports.fetchHawk = function(schema, id){
     if(!schema) return reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if (!schemaName) return reject(new Error('schema does not exist'));
-
-    let hawk = schemaName[id];
-    if (!hawk) return reject(new Error('hawk does not exist'));
+    let hawk = fs.readFileProm(`${__dirname}/../data/${schema}/${id}.json`, 'ascii', function(err, data){
+      if (err) return Promise.reject(new Error(err));
+      return JSON.parse(data.toString());
+    });
 
     return resolve(hawk);
   });
@@ -46,14 +44,10 @@ exports.deleteHawk = function(schema, id){
     if(!schema) return reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema does not exist'));
+    fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`, function(err){
+      if (err) return reject(new Error(err));
+    });
 
-    let hawk = schemaName[id];
-    if(!hawk) return reject(new Error('hawk does not exist'));
-
-    delete storage[schema][id];
-
-    return(resolve(id));
+    return resolve(id);
   });
 };
