@@ -8,17 +8,15 @@ module.exports = exports = {};
 
 exports.createHawk = function(schema, hawk){
   debug('#createHawk');
-
-  if(!schema) return Promise.reject(new Error('schema required'));
-  if(!hawk) return Promise.reject(new Error('hawk required'));
-  fs.mkdirProm(`${__dirname}/../data/${schema}`, function(err){ // add a check to see if dir already exists?
-    if(err) return Promise.reject(new Error(err));
-  }).then(fs.writeFileProm(`${__dirname}/../data/${schema}/${hawk.id}.json`, JSON.stringify(hawk), function(err){
-    if (err) return Promise.reject(new Error(err));
-  })
-);
-
-  return Promise.resolve(hawk);
+  return new Promise((resolve, reject) => {
+    if(!schema) return Promise.reject(new Error('schema required'));
+    if(!hawk) return Promise.reject(new Error('hawk required'));
+    return fs.mkdirProm(`${__dirname}/../data/${schema}`)
+      .then(fs.writeFileProm(`${__dirname}/../data/${schema}/${hawk.id}.json`, JSON.stringify(hawk))
+          .then(data => resolve(data))
+          .catch(err => reject(err)))
+      .catch(err => reject(err));
+  });
 };
 
 exports.fetchHawk = function(schema, id){
@@ -28,20 +26,33 @@ exports.fetchHawk = function(schema, id){
     if(!schema) return reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
 
-    fs.readFileProm(`${__dirname}/../data/${schema}/${id}.json`, function(err){
-      if (err) return Promise.reject(new Error(err));
-    }).then((hawk) => {
-      return resolve(JSON.parse(hawk.toString()));
-    }).catch(err => {
-      return reject(err);
-    });
-
+    return fs.readFileProm(`${__dirname}/../data/${schema}/${id}.json`)
+      .then(hawk => resolve(JSON.parse(hawk.toString())))
+      .catch(err => reject(err));
   });
 };
 
-// exports.updateHawk = function(schema, ????){
-//
-// }
+exports.updateHawk = function(schema, id, hawkChanges){
+  debug('#updateHawk');
+
+  return new Promise((resolve, reject) => {
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
+    if(!hawkChanges) return reject(new Error('schema required'));
+
+    return fs.readFileProm(`${__dirname}/../data/${schema}/${id}.json`)
+      .then(hawk => {
+        let hawkup = JSON.parse(hawk.toString());
+        if(hawkChanges.name) hawkup.name = hawkChanges.name;
+        if(hawkChanges.pos) hawkup.pos = hawkChanges.pos;
+        if(hawkChanges.round) hawkup.round = hawkChanges.round;
+        fs.writeFileProm(`${__dirname}/../data/${schema}/${id}.json`, JSON.stringify(hawkup))
+          .then(() => resolve(hawkup))
+          .catch(err => reject(err));
+      }).catch(err => reject(err));
+
+  });
+};
 
 exports.deleteHawk = function(schema, id){
   debug('#deleteHawk');
@@ -50,10 +61,8 @@ exports.deleteHawk = function(schema, id){
     if(!schema) return reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
 
-    fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`, function(err){
-      if (err) return reject(new Error(err));
-    });
-
-    return resolve(id);
+    return fs.unlinkProm(`${__dirname}/../data/${schema}/${id}.json`)
+      .then(data => resolve(data))
+      .catch(err => reject(err));
   });
 };

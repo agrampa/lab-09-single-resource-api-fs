@@ -46,15 +46,11 @@ module.exports = function(router){
 
   router.put('/api/seahawk', function(req, res){
     debug('PUT /api/seahawk');
-    console.log(req.body);
 
     if (req.url.query.id) {
-      storage.fetchHawk('hawk', req.url.query.id)
+      storage.updateHawk('hawk', req.url.query.id, req.body)
       .then(hawk => {
-        if(req.body.name) hawk.name = req.body.name;
-        if(req.body.pos) hawk.pos = req.body.pos;
-        if(req.body.round) hawk.round = req.body.round;
-        storage.createHawk('hawk', hawk);
+        console.log('from put route', hawk);
         res.writeHead(202, {'Content-Type': 'application/json'});
         res.write(JSON.stringify(hawk));
         res.end();
