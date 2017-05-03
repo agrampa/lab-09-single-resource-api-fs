@@ -3,7 +3,7 @@
 const http = require('http');
 const Router = require('./lib/router');
 const storage = require('./lib/storage'); // eslint-disable-line
-const LiveShow = require('./model/live-show'); // eslint-disable-line
+const LiveShow = require('./model/music'); // eslint-disable-line
 const debug = require('debug')('http:server'); // eslint-disable-line
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +13,6 @@ const router = new Router();
 const server = module.exports = http.createServer(router.route());
 // previously: router.get(‘/api/music’, (req, res) => {}
 
-require('./routes/show-routes.js')(router);
+require('./routes/music-routes.js')(router);
 
 server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
