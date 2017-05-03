@@ -1,69 +1,73 @@
 'use strict';
 
 const debug = require('debug')('http:storage');
-const storage = module.exports = {};
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'), {suffix: 'Async'});
-const pathUrl = `${__dirname}/../data`;
+const storage = {};
 
+module.exports = exports = {};
 
-storage.createItem = function(blueprint, item) {
-  debug('#createItem');
+exports.createCandy = function(schema, candy) {
+  debug('#createCandy');
 
-  return fs.statAsync(`${pathUrl}`)
-  .catch(err => {
-    err.status = 400;
-    return Promise.reject(err);
-  })
-  .then(() => {
-    return fs.writeFileAsync(`${pathUrl}/${blueprint}${item.id}.json`, JSON.stringify(item));
-  })
-  .then(() => {
-    return Promise.resolve(item);
-  })
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!candy) return Promise.reject(new Error('candy required'));
+  if(!storage[schema]) storage[schema] = {};
+
+  storage[schema][candy.id] = candy;
+
+  return Promise.resolve(candy);
 };
 
-storage.fetchItem = function(blueprint, id) {
-  debug('#fetchItem');
-  let pathUrlId =`${pathUrl}/${blueprint}${id}.json`;
+exports.fetchCandy = function(schema, id) {
+  return new Promise((resolve, reject) => {
+    debug('#fetchCandy');
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
 
-  return fs.statAsync(pathUrlId)
-  .catch(err => {
-    err.status = 404;
-    return Promise.reject(err);
-  })
-  .then(() => {
-    return fs.readFileAsync(pathUrlId);
-  })
-  .then((data) => {
-    return Promise.resolve(JSON.parse(data.toString()));
+    let schemaName = storage[schema];
+    if(!schemaName) return reject(new Error('schema not found'));
+
+    let candy = schemaName[id];
+    if(!candy) return reject(new Error('candy not found'));
+
+    resolve(candy);
   });
 };
 
-storage.removeItem = function(blueprint, id) {
-  debug('#removeItem');
-  let pathUrlId = `${pathUrl}/${blueprint}${id}.json`;
+exports.removeCandy = function(schema, id) {
+  return new Promise((resolve, reject) => {
+    debug('#removeCandy');
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
 
-  return fs.statAsync(pathUrlId)
-  .catch(err => {
-    err.status = 404;
-    return Promise.reject(err);
-  })
-  .then(() => {
-    return fs.unlinkAsync(pathUrlId);
-  })
-  .then(() => {
-    return Promise.resolve();
+    let schemaName = storage[schema];
+    if(!schemaName) return reject(new Error('schema not found'));
+
+    let candy = schemaName[id];
+    if(!candy) return reject(new Error('candy not found'));
+
+    delete storage[schema][id];
+
+    resolve();
   });
 };
 
-storage.updateItem = function(blueprint, id, item) {
-  debug('#updateItem');
-  let pathUrlId = `${pathUrl}/${blueprint}${id}.json`;
+exports.updateCandy = function(schema, id, newCand) {
+  return new Promise((resolve, reject) => {
+    debug('#updateCandy');
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
 
-  return fs.readFileAsync(`${pathUrlId}`, JSON.stringify(item))
-  .then((item) => {
-    console.log(item);
-  })
-  .catch(console.error);
+    let schemaName = storage[schema];
+    if(!schemaName) return reject(new Error('schema not found'));
+
+    let candy = schemaName[id];
+    if(!candy) return reject(new Error('item not found'));
+    console.log(storage[schema]);
+
+    if(newCand.name) candy.name = newCand.name;
+    if(newCand.type) candy.type = newCand.type;
+    if(newCand.texture) candy.texture = newCand.texture;
+
+    resolve(candy);
+  });
 };
