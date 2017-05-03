@@ -9,6 +9,8 @@ const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
 module.exports = exports = {};
 
+const DATA_URL = `${__dirname}/../data`;
+
 //POST
 exports.createItem = function(schema, item) {
   debug('#createItem');
@@ -19,14 +21,14 @@ exports.createItem = function(schema, item) {
 
   storage[schema][item.id] = item;
 
-  mkdirp('./data/planets', function(err){
+  mkdirp(`${DATA_URL}/${schema}`, function(err){
     if(err) {console.error(err);}
     else {
       let data = JSON.stringify(item);
-      fs.writeFileProm(`./data/planets/${item.name}.json`, data);
+      fs.writeFileProm(`${DATA_URL}/${schema}/${item.id}.json`, data);
     }
   });
-
+  console.log(storage);
   return Promise.resolve(item);
 };
 
@@ -34,24 +36,15 @@ exports.createItem = function(schema, item) {
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
 
-  // return new Promise((resolve, reject) => {
-    if(!schema) return Promise.reject(new Error('schema required'));
-    if(!id) return Promise.reject(new Error('id required'));
+  return new Promise((resolve, reject) => {
+    if(!schema) return reject(new Error('schema required'));
+    if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if(!schemaName) return Promise.reject(new Error('schema not found'));
+    return fs.readFileProm(`${DATA_URL}/${schema}/${id}.json`)
+      .then(data => resolve(JSON.parse(data.toString())))
+      .catch(err => reject(err));
 
-    let item = schemaName[id];
-    if(!item) return Promise.reject(new Error('item not found'));
-
-    // try {
-    //   fs.readFileProm(`./data.planets/${item.name}.json`);
-    // }catch(err){
-    //   console.error(err);
-    //   return reject(new Error('failed to read file'));
-    // }
-    return Promise.resolve(item);
-  // });
+  });
 };
 
 //PUT
@@ -61,17 +54,21 @@ exports.updateItem = function(schema, id, item){
   return new Promise((resolve,reject) => {
     if(!schema) return reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
-    // if(!item) return Promise.reject(new Error ('item required'));
 
-    let schemaIs = storage[schema];
-    if(!schemaIs) return reject(new Error('schema not found'));
+    return fs.readFileProm(`${DATA_URL}/${schema}/${id}.json`)
+      .then(data => {
+        console.log(item);
+        let toUpdate = JSON.parse(data.toString());
 
-    let schemaOn = schemaIs[id];
+        if(item.name) toUpdate.name = item.name;
+        if(item.universe) toUpdate.universe = item.universe;
 
-    if(item.name) schemaOn.name = item.name;
-    if(item.universe) schemaOn.universe = item.universe;
+        let updated = JSON.stringify(toUpdate);
+        fs.writeFileProm(`${DATA_URL}/${schema}/${id}.json`, updated);
 
-    resolve(schemaOn);
+        return resolve(toUpdate);
+      })
+      .catch(err => reject(err));
 
   });
 };
@@ -80,20 +77,13 @@ exports.updateItem = function(schema, id, item){
 exports.deleteItem = function(schema, id){
   debug('#fetchItem');
 
-  return new Promise((reslove, reject) => {
+  return new Promise((resolve, reject) => {
     if(!schema) return Promise.reject(new Error('schema required'));
     if(!id) return reject(new Error('id required'));
 
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
+    del([`${DATA_URL}/${schema}/${id}.json`]);
 
-    let item = schemaName[id];
-    if(!item) return reject(new Error('item not found'));
-
-    del([`./data/planets/${item.name}.js`]);
-
-    delete storage[schema];
-    reslove();
+    resolve();
   });
 };
 
