@@ -4,7 +4,6 @@ const debug = require('debug')('http:server');
 const storage = require('../lib/storage');
 const Automobile = require('../model/cars');
 
-
 module.exports = function(router) {
   router.get('/api/auto', function(req,res) {
     debug('GET /api/auto');
@@ -75,11 +74,11 @@ module.exports = function(router) {
 
   router.put('/api/auto', function(req, res) {
     debug('PUT /api/auto');
-    console.log(req.body);
     if(req.body.id){
       try {
         storage.fetchPut('auto',req.body.id, req.body)
         .then(auto => {
+          console.log('inside put route auto', auto);
           res.writeHead(201, {'Content-Type': 'application/json'});
           res.write(JSON.stringify(auto));
           res.end();
