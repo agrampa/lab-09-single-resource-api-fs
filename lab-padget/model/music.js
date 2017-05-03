@@ -1,9 +1,7 @@
 'use strict';
-// was file name: live-show.js
 
 // eslint-disable-next-line
 const debug = require('debug')('http:music');
-// const debug = require('debug')('http:live-show');
 const uuid = require('uuid/v4');
 
 module.exports = function(artist, album, song=true) {

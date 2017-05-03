@@ -3,7 +3,7 @@
 const http = require('http');
 const Router = require('./lib/router');
 const storage = require('./lib/storage'); // eslint-disable-line
-const LiveShow = require('./model/music'); // eslint-disable-line
+const Music = require('./model/music'); // eslint-disable-line
 const debug = require('debug')('http:server'); // eslint-disable-line
 const PORT = process.env.PORT || 3000;
 

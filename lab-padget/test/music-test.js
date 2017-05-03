@@ -2,13 +2,11 @@
 // was file name: live-show-test.js
 
 const Music = require('../model/music');
-// const Show = require('../model/live-show');
 const expect = require('chai').expect;
 
 describe('music module', function() {
   describe('when creating a new music object', function() {
     this.music = new Music('artist', 'album', true);
-    // this.newShow = new Show('artist', 'album', true);
     it('should have a name of "artist"', done => {
       expect(this.music.artist).to.equal('artist');
       done();
