@@ -2,6 +2,8 @@
 // 4. storage.
 
 // require debug module function and call it.
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
 // all the instances of schema when we create an item.
 // {schemaOne: {idOne: {}}, {idTwo: {}}, schemaTwo: {}}
@@ -21,11 +23,20 @@ exports.createItem = function(schema, item) {
   // storage['kidToy'] = {} storage.schema = {}
   // take the value of schema, make or get that property.
   // looking for a property with name .schema, not .kidToy.
-  if(!storage[schema]) storage[schema] = {};
-
+  // if(!storage[schema]) storage[schema] = {};
+  return fs.writeFileProm(`${__dirname}/../data/${item.id}.json`, JSON.stringify(item))
+  .then(data => {
+    console.log(JSON.parse(data));
+    return JSON.parse(data);
+  })
+  .catch(err => {
+    return err;
+  });
   // assigned item to primary key.
   // when we create an item it will already have an id.
-  storage[schema][item.id] = item;
+  // storage[schema][item.id] = item;
+
+
 
   // resolve that item and return a promise.
   return Promise.resolve(item);
@@ -56,9 +67,23 @@ exports.fetchItem = function(schema, id) {
 
 // router takes an endpoint and a callback.
 // this.routes.PUT[endpoint] = callback;
-exports.putItem = function(schema, id) {
-  debug('#putItem');
-  console.log(id);
+exports.putItem = function(schema, id, music) {
+  // debug('#putItem');
+  // if(!schema) return Promise.reject(new Error('schema required'));
+  // if(!id) return Promise.reject(new Error('item required'));
+  //
+  // let schemaName = storage[schema];
+  // console.log(schemaName, 'what is schemaName');
+  // // if(!schemaName) return Promise.reject(new Error('schema not found'));
+  //
+  // return fs.readFile(`${__dirname}/../data/id.`)
+  //
+  // let item = schemaName[id];
+  // if(!item) return Promise.reject(new Error('item not found'));
+  // if(music.artist) item.artist = music.artist;
+  // if(music.album) item.album = music.album;
+  // if(music.song) item.song = music.song;
+  // Promise.resolve(item);
 };
 
 exports.deleteItem = function(schema, id) {
