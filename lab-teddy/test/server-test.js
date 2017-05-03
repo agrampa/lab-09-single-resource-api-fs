@@ -30,7 +30,7 @@ describe('server module', function() {
     });
     after(done => {
       chai.request(server)
-      .delete('/api/toy')
+      .delete('/api/car')
       .query({id: resource.id})
       .end((err, res) => {
         done();
@@ -38,7 +38,7 @@ describe('server module', function() {
 
     });
     describe('/api/car route', function() {
-      describe('a properly formatted reqeust', function() {
+      describe('a properly formatted request', function() {
         it('should return a resource given proper id', done => {
           chai.request(server)
           .get(`/api/car?id=${resource.id}`)
@@ -50,12 +50,12 @@ describe('server module', function() {
         });
       });
       describe('an improperly formatted request', function() {
-        it('should respond with 404 if not found', done => {
+        it('should respond with 400 if not found', done => {
           chai.request(server)
           .get('/')
           .end((err, res) => {
             if (err) console.error(err);
-            expect(res.status).to.equal(404);
+            expect(res.status).to.equal(400);
             done();
           });
         });
