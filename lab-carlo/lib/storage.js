@@ -49,26 +49,48 @@ exports.fetchDelete = function(schemaName, id){
   });
 };
 
-exports.fetchPut = function(schemaName, id) {
-  debug('#fetchPut');
+exports.fetchPut = function(schemaName, auto) {
+  return new Promise((resolve, reject) => {
+    if(!schemaName) return reject(new Error('Schema required'));
+    if(!auto) return reject(new Error('Auto required'));
 
-  //return new Promise((resolve, reject) => {
-  //if(!schemaName) return (new Error('Schema required'));
+    return fs.readFileProm(`${__dirname}/../data/${schemaName}/${auto.id}.json`)
+    .then(data => {
+      let storage = JSON.parse(data.toString());
+      storage.name = auto.name || storage.name;
+      storage.car = auto.car || storage.car;
 
-  //if(!id) return (new Error('ID required'));
+      let jsonStorage = JSON.stringify(storage);
 
-  // let schema = storage[schemaName];
-  // if(!schema) return (new Error('Schema does not exist'));
-  //let carUrlId = `${__dirname}/../data/${schemaName}${id}.json`;
-  let jsonNote = JSON.stringify(note);
-  return fs.readFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`)
-  .then((note) => {
-    fs.writeFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`, jsonNote)
-    .then((note) => {
-      console.log(note);
+      fs.writeFileProm(`${__dirname}/../data/${schemaName}/${auto.id}.json`, jsonStorage)
+      .then(() => storage)
+      .catch(err => Promise.reject(err));
+      console.log(storage);
+      return resolve(storage);
     })
-    .catch(console.error);
-  })
-  .catch(console.error);
-
+      .catch(err => Promise.reject(err));
+  });
 };
+// exports.fetchPut = function(schemaName, id) {
+//   debug('#fetchPut');
+//
+//   //return new Promise((resolve, reject) => {
+//   //if(!schemaName) return (new Error('Schema required'));
+//
+//   //if(!id) return (new Error('ID required'));
+//
+//   // let schema = storage[schemaName];
+//   // if(!schema) return (new Error('Schema does not exist'));
+//   //let carUrlId = `${__dirname}/../data/${schemaName}${id}.json`;
+//   let jsonNote = JSON.stringify(note);
+//   return fs.readFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`)
+//   .then((note) => {
+//     fs.writeFileAsync(`${__dirname}/../data/${schemaName}/${id}.json`, jsonNote)
+//     .then((note) => {
+//       console.log(note);
+//     })
+//     .catch(console.error);
+//   })
+//   .catch(console.error);
+//
+// };
