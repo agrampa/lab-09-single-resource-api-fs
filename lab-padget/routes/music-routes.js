@@ -1,7 +1,9 @@
 'use strict';
+// was file name: show-routes.js
 
-const debug = require('debug')('http:show-routes');
-const LiveShow = require('../model/live-show');
+const debug = require('debug')('http:music-routes');
+const Music = require('../model/music');
+// const LiveShow = require('../model/live-show');
 const storage = require('../lib/storage');
 
 // pass ?id=<uuid> in the query string to retrieve a specific resource as json. registering an endpoint and callback.
@@ -39,13 +41,13 @@ module.exports = function(router) {
     debug('POST /api/music');
     // instantiate new object, assign to music, pass schema name and object. try/catch will immediately execute.
     try {
-      let music = new LiveShow(req.body.artist, req.body.album, req.body.song);
+      let music = new Music(req.body.artist, req.body.album, req.body.song);
       // see promise in storage.js
       storage.createItem('music', music)
       // then/catch is waiting for promise to resolve/reject.
-      .then(LiveShow => {
+      .then(Music => {
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(LiveShow));
+        res.write(JSON.stringify(Music));
         res.end();
       });
     } catch(e) {

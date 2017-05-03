@@ -1,5 +1,7 @@
 'use strict';
+// 4. storage.
 
+// require debug module function and call it.
 const debug = require('debug')('http:storage');
 // all the instances of schema when we create an item.
 // {schemaOne: {idOne: {}}, {idTwo: {}}, schemaTwo: {}}

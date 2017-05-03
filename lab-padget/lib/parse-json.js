@@ -1,5 +1,7 @@
 'use strict';
+// 2. parse json.
 
+// require debug module function and call it.
 const debug = require('debug')('http:parser-json');
 
 module.exports = function(req) {

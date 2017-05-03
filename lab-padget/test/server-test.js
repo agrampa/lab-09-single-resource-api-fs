@@ -10,7 +10,7 @@ chai.use(http);
 // expect(req).to.have.header('<header>');
 // expect(req).to.be.a('object');
 // expect(req).to.have.param('<param>');
-// expect(req).to.have.status(404);
+// expect(req).to.have.status(404);``
 // expect(err).to.be.null;
 
 // describe('server module', function() {
