@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('http:killer-dragon');
+// const debug = require('debug')('http:data');
 const uuid = require('uuid/v4');
 
 module.exports = function(name, type, killer=true) {
