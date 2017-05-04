@@ -74,7 +74,7 @@ describe('Server module', function() {
   describe('unregistered route', function() {
     it('should respond with a 404 "id not found"', done => {
       chai.request(server)
-      .get('/api/music?id=watwhat')
+      .get('/api/music?id=thisiddoesntexist')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();

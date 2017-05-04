@@ -61,7 +61,7 @@ exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
   // returning new promise will get us instance of an item.
   // return new Promise((resolve, reject) => {
-    // error handling and schema checking.
+  // error handling and schema checking.
   if(!schema) return Promise.reject(new Error('schema required'));
   if(!id) return Promise.reject(new Error('id required'));
 
@@ -77,12 +77,30 @@ exports.fetchItem = function(schema, id) {
 // update by reassigning
 // write file fs (nested inside of writefile .then)
 
+exports.deleteItem = function(schema, id) {
+  debug('#deleteItem');
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
 
-
-
-
-
-
+  // read the file to be deleted.
+  return fs.unlinkProm(`${__dirname}/../data/${id}.json`)
+  // return fs.readFileProm(`${__dirname}/../data/${id}.json`)
+  // .then((data) => {
+  //   console.log('deleteNote', data);
+  //   // (data) gives buffer.
+  //   console.log('1. This is data in deleteItem ', schema);
+  //   // (schema) = music, music is constructor.
+  //   console.log('2. This is schema in deleteItem ', schema);
+  //   // (id) = the id and file name.
+  //   console.log('3. This is id in deleteItem ', id);
+  //   return data;
+  // })
+  .catch(err => {
+    return Promise.reject(err);
+    // If file doesn't exist you get this:
+    // "{ Error: ENOENT: no such file or directory, open '/Users/..."
+  });
+};
 
 
 
