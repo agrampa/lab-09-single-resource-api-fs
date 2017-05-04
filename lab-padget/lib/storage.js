@@ -73,9 +73,38 @@ exports.fetchItem = function(schema, id) {
   })
   .catch(err => Promise.reject(err));
 };
-// read file fs, validate it
-// update by reassigning
-// write file fs (nested inside of writefile .then)
+
+exports.putItem = function(schema, id, item) {
+  debug('#putItem');
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
+  if(!item) return Promise.reject(new Error('item required'));
+  // read file fs, validate it
+  // ... (`${__dirname}/../data/${item.id}.json`, JSON.stringify(item))
+  // TypeError: First argument must be a string or Buffer
+  // at ServerResponse.OutgoingMessage.write (_http_outgoing.js:458:11)
+  return fs.readFileProm(`${__dirname}/../data/${id}.json`)
+  .then(data => {
+    // console.log(data); // is a buffer
+    // let previous = JSON.parse(data);
+    // console.log(data.toString()); // is an object.
+    // let previous = data;
+    // let previous = data.toString();
+    let previous = JSON.parse(data.toString());
+    if(previous.artist) previous.artist = item.artist;
+    if(previous.album) previous.artist = item.album;
+    if(previous.song) previous.artist = item.song;
+
+    let updated = JSON.stringify(previous);
+    fs.writeFileProm(`${__dirname}/../data/${item.id}.json`, updated);
+    return Promise.resolve(previous);
+  })
+  .catch(err => {
+    return Promise.reject(err);
+    // If file doesn't exist you get this:
+    // "{ Error: ENOENT: no such file or directory, open '/Users/..."
+  });
+};
 
 exports.deleteItem = function(schema, id) {
   debug('#deleteItem');
