@@ -17,10 +17,11 @@ module.exports = function(router) {
       // pass schema name and id.
       storage.fetchItem('music', req.url.query.id)
       // return value is a promise.
-      .then(music => {
+      // item returned from fetch item.
+      .then(item => {
         res.writeHead(200, {'Content-Type': 'application/json'});
         // sending json as the content type.
-        res.write(JSON.stringify(music));
+        res.write(JSON.stringify(item));
         res.end();
       })
       .catch(err => {
@@ -42,17 +43,21 @@ module.exports = function(router) {
   // pass data as stringifed json in the body of a post request to create a resource.
   router.post('/api/music', function(req, res) {
     debug('POST /api/music');
+
     // instantiate new object, assign to music, pass schema name and object. try/catch will immediately execute.
     try {
       let music = new Music(req.body.artist, req.body.album, req.body.song);
       // see promise in storage.js
-      storage.createItem('music', music)
+      storage.createItem('music', music);
       // then/catch is waiting for promise to resolve/reject.
-      .then(music => {
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(music));
-        res.end();
-      });
+      // .then(music => {
+      //   res.writeHead(200, {'Content-Type': 'application/json'});
+      //   res.write(JSON.stringify(postMusic));
+      //   res.end();
+      // });
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.write(JSON.stringify(music));
+      res.end();
     } catch(e) {
       console.error(e);
       res.writeHead(400, {'Content-Type': 'text/plain'});
@@ -67,6 +72,8 @@ module.exports = function(router) {
   router.put('/api/music', function(req, res) {
     debug('PUT /api/music');
     // let music = Music(req.body.artist, req.body.album, req.body.song);
+
+    // Won't work without music here:
     storage.putItem('music', req.body.id, req.body)
     // grab the object with the properties
     .then(music => {
@@ -85,7 +92,6 @@ module.exports = function(router) {
 
   // DELETE
 
-  // pass an ?id=<uuid> in the query string to delete a specific resource should return 204 status with no content in the body.
   router.delete('/api/music', function(req, res) {
     debug('DELETE /api/music');
     if(req.url.query.id) {

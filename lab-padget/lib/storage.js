@@ -1,105 +1,104 @@
 'use strict';
 // 4. storage.
 
-// require debug module function and call it.
+// LECTURE CODE EXAMPLE
+
+// const Promise = require(‘bluebird’)
+// // overwriting native implementation of a promise.
+// const fs = Promise.promisifyAll(require(‘fs’), {suffix: ‘Prom’}
+// // we’re bolting on a jet engine!
+//
+// // rather than…
+// fs.readFile(‘somepath’, function(err, data) => {
+//   // do some stuff
+//   // if(err) console.error(err)
+//   // console.log(data.toString(‘utf-8’, 0, 16)
+// })
+//
+// // we’ll use the suffix prom from this point forward. we’ll async read that file, below that line use .then.
+//
+// // now do this…
+// fs.readFileProm(‘./data/one.txt’)
+// .then(data => {
+//   console.log(data.toString(‘utf-8’, 0, 16) // were going to get a buffer.
+// })
+
+// // can pass callback name, if then fires, implicitly handed.
+// // _function name is a helper method; a python thing; convention.
+// fs.readFileProm(‘./data/one.txt’)
+// .then(data => {
+//   console.log(data.toString(‘utf-8’, 0, 16) // were going to get a buffer.
+//   .then…
+//   .catch…
+// })
+
+const debug = require('debug')('http:storage');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
-const debug = require('debug')('http:storage');
-// all the instances of schema when we create an item.
-// {schemaOne: {idOne: {}}, {idTwo: {}}, schemaTwo: {}}
-const storage = {};
+// const storage = {};
 
-// instantiated empty object is an exports alias.
 module.exports = exports = {};
 
-// create an item and set it into storage.
 exports.createItem = function(schema, item) {
   debug('#createItem');
-  // if no schema, return reject with error.
   if(!schema) return Promise.reject(new Error('schema required'));
   if(!item) return Promise.reject(new Error('item required'));
-
-  // dynamically set a new property on an object.
-  // storage['kidToy'] = {} storage.schema = {}
-  // take the value of schema, make or get that property.
-  // looking for a property with name .schema, not .kidToy.
-  // if(!storage[schema]) storage[schema] = {};
+  // item = music properties from constructor.
+  // data = returned promise From fs write.
   return fs.writeFileProm(`${__dirname}/../data/${item.id}.json`, JSON.stringify(item))
   .then(data => {
     console.log(JSON.parse(data));
     return JSON.parse(data);
   })
   .catch(err => {
-    return err;
+    return Promise.reject(err);
+    // return err;
   });
-  // assigned item to primary key.
-  // when we create an item it will already have an id.
-  // storage[schema][item.id] = item;
-
-
-
-  // resolve that item and return a promise.
-  return Promise.resolve(item);
 };
 
-// need schema name and id so we can look up an instance.
 exports.fetchItem = function(schema, id) {
   debug('#fetchItem');
-
   // returning new promise will get us instance of an item.
-  return new Promise((resolve, reject) => {
+  // return new Promise((resolve, reject) => {
     // error handling and schema checking.
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
 
-    // schema name exists.
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    // assign to item.
-    let item = schemaName[id];
-    if(!item) return reject(new Error('item not found'));
-
-    // we know it exists, so send it back, returned a promise.
-    resolve(item);
-  });
+  return fs.readFileProm(`${__dirname}/../data/${id}.json`)
+  .then(data => {
+    // this data is a buffer binary/hex
+    // console.log('reading file in fetch item', data);
+    // let barf = JSON.parse(data.toString());
+    // console.log(barf, 'this is barf');
+    // return barf;
+    // LOG RESULT:
+    // { artist: '“Lala”',
+    // album: '”GetReal”',
+    // song: '“MakeBelieve”',
+    // id: 'e4c61889-cd46-4c38-a92e-9ab58ce6c7e9' } 'this is barf'
+    return JSON.parse(data.toString());
+  })
+  .catch(err => Promise.reject(err));
 };
 
-// router takes an endpoint and a callback.
-// this.routes.PUT[endpoint] = callback;
-exports.putItem = function(schema, id, music) {
-  // debug('#putItem');
-  // if(!schema) return Promise.reject(new Error('schema required'));
-  // if(!id) return Promise.reject(new Error('item required'));
-  //
-  // let schemaName = storage[schema];
-  // console.log(schemaName, 'what is schemaName');
-  // // if(!schemaName) return Promise.reject(new Error('schema not found'));
-  //
-  // return fs.readFile(`${__dirname}/../data/id.`)
-  //
-  // let item = schemaName[id];
-  // if(!item) return Promise.reject(new Error('item not found'));
-  // if(music.artist) item.artist = music.artist;
-  // if(music.album) item.album = music.album;
-  // if(music.song) item.song = music.song;
-  // Promise.resolve(item);
-};
+// REMEMBER IF IT DOESN'T WORK, THEN TRY:
+// req.url.query.id FOR ALL THE THINGS!!!
 
-exports.deleteItem = function(schema, id) {
-  debug('#deleteItem');
-
-  return new Promise((resolve, reject) => {
-    if(!schema) return reject(new Error('schema required'));
-    if(!id) return reject(new Error('id required'));
-
-    let schemaName = storage[schema];
-    if(!schemaName) return reject(new Error('schema not found'));
-
-    let item = schemaName[id];
-    if(!item) return reject(new Error('item not found'));
-
-    delete(schemaName[id]); // delete object
-    resolve(item); // or nothing
-  });
-};
+// exports.putItem = function(schema, id, music) {
+//   debug('#putItem');
+//
+//   if(!schema) return Promise.reject(new Error('schema required'));
+//   if(!id) return Promise.reject(new Error('item required'));
+//
+//   let schemaName = storage[schema];
+//   console.log(schemaName, 'what is schemaName');
+//
+//   return fs.readFile(`${__dirname}/../data/id.`);
+//
+//   let item = schemaName[id];
+//   if(!item) return Promise.reject(new Error('item not found'));
+//   if(music.artist) item.artist = music.artist;
+//   if(music.album) item.album = music.album;
+//   if(music.song) item.song = music.song;
+//   Promise.resolve(item);
+// };
