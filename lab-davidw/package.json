@@ -1,0 +1,41 @@
+{
+  "name": "lab-davidw",
+  "version": "0.1.0",
+  "description": "Part two of creating a vanilla single model api",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "debug": "DEBUG=fishingLure* nodemon server.js",
+    "lint": "eslint ./.eslintrc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidGWheeler/lab-09-single-resource-api-fs.git"
+  },
+  "keywords": [
+    "node, api, vanilla, fishing, lures, persistent data"
+  ],
+  "author": "DavidGWheeler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavidGWheeler/lab-09-single-resource-api-fs/issues"
+  },
+  "homepage": "https://github.com/DavidGWheeler/lab-09-single-resource-api-fs#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "del": "^2.2.2",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.3.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "mkdirp": "^0.5.1",
+    "uuid": "^3.0.1"
+  }
+}
