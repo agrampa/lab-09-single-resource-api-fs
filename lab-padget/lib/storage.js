@@ -46,9 +46,10 @@ exports.createItem = function(schema, item) {
   // item = music properties from constructor.
   // data = returned promise From fs write.
   return fs.writeFileProm(`${__dirname}/../data/${item.id}.json`, JSON.stringify(item))
-  .then(data => {
-    console.log(JSON.parse(data));
-    return JSON.parse(data);
+  .then(() => {
+    //console.log(data);
+    return item;
+    // return JSON.parse(data);
   })
   .catch(err => {
     return Promise.reject(err);
@@ -68,18 +69,26 @@ exports.fetchItem = function(schema, id) {
   .then(data => {
     // this data is a buffer binary/hex
     // console.log('reading file in fetch item', data);
-    // let barf = JSON.parse(data.toString());
-    // console.log(barf, 'this is barf');
-    // return barf;
-    // LOG RESULT:
-    // { artist: '“Lala”',
-    // album: '”GetReal”',
-    // song: '“MakeBelieve”',
-    // id: 'e4c61889-cd46-4c38-a92e-9ab58ce6c7e9' } 'this is barf'
     return JSON.parse(data.toString());
   })
   .catch(err => Promise.reject(err));
 };
+// read file fs, validate it
+// update by reassigning
+// write file fs (nested inside of writefile .then)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // REMEMBER IF IT DOESN'T WORK, THEN TRY:
 // req.url.query.id FOR ALL THE THINGS!!!

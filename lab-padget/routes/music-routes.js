@@ -48,16 +48,19 @@ module.exports = function(router) {
     try {
       let music = new Music(req.body.artist, req.body.album, req.body.song);
       // see promise in storage.js
-      storage.createItem('music', music);
+      //console.log(music); // log shows object with our music info.
+      storage.createItem('music', music)
       // then/catch is waiting for promise to resolve/reject.
-      // .then(music => {
-      //   res.writeHead(200, {'Content-Type': 'application/json'});
-      //   res.write(JSON.stringify(postMusic));
-      //   res.end();
-      // });
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(music));
-      res.end();
+      .then(newMusic => {
+        console.log(newMusic);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.write(JSON.stringify(newMusic));
+        res.end();
+      });
+      // this works with no .then() statement.
+      // res.writeHead(200, {'Content-Type': 'application/json'});
+      // res.write(JSON.stringify(music));
+      // res.end();
     } catch(e) {
       console.error(e);
       res.writeHead(400, {'Content-Type': 'text/plain'});
