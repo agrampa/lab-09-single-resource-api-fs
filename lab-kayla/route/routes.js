@@ -1,7 +1,7 @@
 'use strict';
 
 const storage = require('./lib/storage');
-const KillerDragon = require('./model/killer-dragon');
+const KillerDragon = require('./model/data');
 const debug = require('debug')('http:server');
 
 module.exports = function(router) {

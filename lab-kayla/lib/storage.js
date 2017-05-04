@@ -1,6 +1,5 @@
 'use strict';
 
-// const Dragon = require('../model/killer-dragon');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const debug = require('debug')('http:storage');
@@ -33,27 +32,24 @@ exports.fetchItem = function(schema, id) {
     return JSON.parse(dragon)
   })
   .catch(console.error)
-    // let schemaName = storage[schema]; // = storage.dragon
-    // if(!schemaName) return reject(new Error('schema not found'));
-    //
-    // let item = schemaName[id];
-    // if(!item) return reject(new Error('item not found'));
-    //
-    // resolve(item);
 };
 
-// exports.fetchAll = (schema) => {
-//   debug('#fetchAll');
-//
-//   if(!schema) return Promise.reject(new Error('schema required'));
-//
-//   return fs.
-//     // let ids = Object.keys(storage[schema]);
-//     // if(!ids) return reject(new Error('no items found'));
-//     //
-//     // resolve(ids);
-//
-// };
+exports.updateItem = (schema, id, newDragon) => {
+  debug('#updateItem');
+
+  if(!schema) return Promise.reject(new Error('schema required'));
+  if(!id) return Promise.reject(new Error('id required'));
+
+  return fs.readFileProm(`${__dirname}/../data/${id}.json`)
+  .then( dragon => {
+    let stringDragon = JSON.parse(dragon.toString());
+    if(newDragon.name) stringDragon.name = newDragon.name;
+    if(newDragon.type) stringDragon.type = newDragon.type;
+    if(newDragon.killer) stringDragon.killer = newDragon.killer;
+    fs.writeFileProm(`${__dirname}/../data/${id}.json`, JSON.stringify(stringDragon));
+  })
+  .catch(console.error)
+};
 
 exports.deleteItem = function(schema, id) {
   debug('#deleteItem');
@@ -66,13 +62,4 @@ exports.deleteItem = function(schema, id) {
     console.log('dragon deleted');
   })
   .catch(console.error)
-    // let schemaName = storage[schema];
-    // if(!schemaName) return reject(new Error('schema not found'));
-    //
-    // let item = schemaName[id];
-    // if(!item) return reject(new Error('item not found'));
-    //
-    // delete(schemaName[id]);
-    // resolve(item);
-    //
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-const Dragon = require('../model/killer-dragon');
+const Dragon = require('../model/data');
 const chai = require('chai');
 const http = require('chai-http');
 const expect = chai.expect;
