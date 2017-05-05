@@ -1,5 +1,4 @@
 'use strict';
-// 3. parse url.
 
 // require debug module function and call it.
 const debug = require('debug')('http:parse-url');

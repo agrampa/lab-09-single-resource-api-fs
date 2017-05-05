@@ -4,10 +4,10 @@ const debug = require('debug')('http:music-routes');
 const Music = require('../model/music');
 const storage = require('../lib/storage');
 
-// pass ?id=<uuid> in the query string to retrieve a specific resource as json. registering an endpoint and callback.
+// pass ?id=<uuid> in the query string to retrieve a specific resource as json.
+// registering an endpoint and callback.
 
 // GET
-
 module.exports = function(router) {
   // router is the instance, get is the method.
   router.get('/api/music', function(req, res) {
@@ -39,16 +39,15 @@ module.exports = function(router) {
   });
 
   // POST
-
-  // pass data as stringifed json in the body of a post request to create a resource.
   router.post('/api/music', function(req, res) {
     debug('POST /api/music');
-
-    // instantiate new object, assign to music, pass schema name and object. try/catch will immediately execute.
+    // pass data as stringifed json in the body of a post request to create a resource.
+    // instantiate new object, assign to music, pass schema name and object.
+    // try/catch will immediately execute.
     try {
       let music = new Music(req.body.artist, req.body.album, req.body.song);
-      // see promise in storage.js
-      //console.log(music); // log shows object with our music info.
+      // see promise in storage.js.
+      // music shows object with our music info.
       storage.createItem('music', music)
       // then/catch is waiting for promise to resolve/reject.
       .then(newMusic => {
@@ -57,10 +56,6 @@ module.exports = function(router) {
         res.write(JSON.stringify(newMusic));
         res.end();
       });
-      // this works with no .then() statement.
-      // res.writeHead(200, {'Content-Type': 'application/json'});
-      // res.write(JSON.stringify(music));
-      // res.end();
     } catch(e) {
       console.error(e);
       res.writeHead(400, {'Content-Type': 'text/plain'});
@@ -70,15 +65,11 @@ module.exports = function(router) {
   });
 
   // PUT
-
-  // pass data as stringified json in the body of a put request to update a resource.
   router.put('/api/music', function(req, res) {
     debug('PUT /api/music');
-    // let music = Music(req.body.artist, req.body.album, req.body.song);
-
-    // Won't work without music here:
-    storage.putItem('music', req.body.id, req.body)
+    // pass data as stringified json in the body of a put request to update a resource.
     // grab the object with the properties
+    storage.putItem('music', req.body.id, req.body)
     .then(music => {
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(music));
@@ -94,7 +85,6 @@ module.exports = function(router) {
   });
 
   // DELETE
-
   router.delete('/api/music', function(req, res) {
     debug('DELETE /api/music');
     if(req.url.query.id) {

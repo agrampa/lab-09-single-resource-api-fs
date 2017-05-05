@@ -5,7 +5,7 @@
 [class 8](https://github.com/codefellows/seattle-javascript-401d15/tree/master/class-08-vanilla-REST-api) and [lab 8](https://github.com/codefellows-seattle-javascript-401d15/lab-08-single-resource-api).
 
 ## Version
-* 0.1.0
+* 0.2.0
 
 ## Installation
 Please visit the following pages for how to install your project locally.

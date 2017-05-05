@@ -1,5 +1,4 @@
 'use strict';
-// 5. express router to replace.
 
 // require debug module function and call it.
 const debug = require('debug')('http:router');

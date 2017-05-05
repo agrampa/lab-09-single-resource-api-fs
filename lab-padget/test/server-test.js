@@ -35,7 +35,6 @@ describe('Server module', function() {
       .post('/api/music')
       .send({artist: 'Lala', album: 'GetReal', song: 'MakeBelieve'})
       .end((err, res) => {
-        // console.log(res);
         storage = JSON.parse(res.text);
         done();
       });
@@ -92,23 +91,12 @@ describe('Server module', function() {
           storage = JSON.parse(res.text);
           done();
         });
-        // PUT TESTING!!! Working on this with JR.
-        // it('should update an existing data entry', done => {
-        //   chai.request(server)
-        //   .put('/api/music')
-        //   .send({artist: 'ForReal', album: 'MoreBeta', song: 'Nutz', id: storage.id})
-        //   .end((err, res) => {
-        //     storage = JSON.parse(res.text);
-        //     done();
-        //   });
-        // });
       });
       after(done => {
         chai.request(server)
         .delete('/api/music')
         .query({id: storage.id})
         .end(() => {
-          //console.error();
           done();
         });
       });

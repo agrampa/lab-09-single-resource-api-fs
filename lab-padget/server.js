@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 3000;
 const router = new Router();
 // bind to the router so we have the routes, call, return callback.
 const server = module.exports = http.createServer(router.route());
-// previously: router.get(‘/api/music’, (req, res) => {}
 
 require('./routes/music-routes.js')(router);
 
