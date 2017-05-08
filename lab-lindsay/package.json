@@ -1,0 +1,45 @@
+{
+  "name": "lab-09-lindsay",
+  "version": "1.0.0",
+  "description": "lab-09-lindsay",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "del": "^2.2.2",
+    "fs": "0.0.1-security",
+    "mkdirp": "^0.5.1",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "debug": "^2.6.6",
+    "mocha": "^3.3.0",
+    "superagent": "^3.5.2"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "debug": "DEBUG=http* nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindsgil/lab-09-single-resource-api-fs.git"
+  },
+  "keywords": [
+    "lab-09",
+    "npm",
+    "api",
+    "lindsay"
+  ],
+  "author": "lindsay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lindsgil/lab-09-single-resource-api-fs/issues"
+  },
+  "homepage": "https://github.com/lindsgil/lab-09-single-resource-api-fs#readme"
+}
